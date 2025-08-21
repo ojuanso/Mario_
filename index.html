@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unido·3D — Portafolio</title>
+  <meta name="description" content="Portafolio de diseñador/a 3D con un estilo unificado: modelado, texturizado, animación y renders." />
+  <style>
+    /* =====================
+       Diseño base / tema
+       ===================== */
+    :root{
+      /* Colores base: cambia solo estas 4 líneas para rebrand rápido */
+      --bg: #0a0d12;
+      --surface: #0f141b;
+      --text: #e6edf5;
+      --muted: #a9b4c1;
+      /* Acento único (la idea de "estilo unido") */
+      --accent: #78f0d6;
+      --accent-2: #53c8ff;
+
+      /* Tipografía / espaciados */
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --shadow-sm: 0 6px 20px rgba(0,0,0,.28);
+    }
+
+    html{scroll-behavior:smooth}
+    *,*::before,*::after{box-sizing:border-box}
+    body{
+      margin:0; color:var(--text); background: radial-gradient(1200px 600px at 20% -10%, #122033 0%, transparent 50%),
+                                        radial-gradient(1000px 500px at 100% 0%, #121a24 0%, transparent 55%),
+                                        var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      line-height:1.45;
+    }
+
+    .container{width:min(1200px, calc(100% - 2rem)); margin-inline:auto}
+
+    /* =====================
+       Header / Nav
+       ===================== */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.5) blur(8px);
+      background:linear-gradient(180deg, rgba(10,13,18,.8), rgba(10,13,18,.55));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:.9rem 0}
+    .brand{display:flex; gap:.7rem; align-items:center; text-decoration:none; color:var(--text)}
+    .brand .badge{width:32px; height:32px; border-radius:10px; background: conic-gradient(from 120deg, var(--accent), var(--accent-2) 60%, var(--accent)); box-shadow: var(--shadow-sm)}
+    .brand b{letter-spacing:.5px}
+    nav a{color:var(--muted); text-decoration:none; margin-left:1rem; font-size:.95rem}
+    nav a:hover{color:var(--text)}
+
+    /* =====================
+       Hero
+       ===================== */
+    .hero{padding: clamp(3rem, 6vw, 6rem) 0}
+    .hero-wrap{display:grid; grid-template-columns: 1.3fr .9fr; gap: clamp(1.2rem, 3vw, 2rem)}
+    .tag{display:inline-flex; align-items:center; gap:.5rem; font-size:.85rem; color:var(--muted); background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); padding:.45rem .7rem; border-radius:999px}
+    .tag .dot{width:8px; height:8px; border-radius:50%; background: var(--accent); box-shadow:0 0 0 6px rgba(120,240,214,.12)}
+
+    h1{font-size: clamp(2rem, 3.6vw, 3.2rem); margin:.6rem 0 1rem; letter-spacing:.3px}
+    .lead{font-size:clamp(1rem, 1.25vw, 1.1rem); color:var(--muted); max-width: 52ch}
+
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      padding:1rem; aspect-ratio: 4/3; display:grid; place-items:center; position:relative; overflow:hidden; box-shadow: var(--shadow)
+    }
+    .hero-card .mesh{
+      position:absolute; inset:-20%; background: radial-gradient(380px 280px at 70% 30%, rgba(120,240,214,.35), transparent 60%),
+                                   radial-gradient(340px 260px at 35% 70%, rgba(83,200,255,.22), transparent 55%);
+      filter: blur(24px); opacity:.9
+    }
+    .hero-card .frame{
+      position:relative; width:min(88%, 720px); aspect-ratio: 16/9; border-radius: calc(var(--radius) - 6px);
+      background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.3));
+      border:1px solid rgba(255,255,255,.12);
+      display:grid; place-items:center; overflow:hidden
+    }
+    .hero-card .frame::before{
+      content:""; position:absolute; inset:0; background:
+        repeating-linear-gradient(135deg, rgba(120,240,214,.09) 0 2px, transparent 2px 12px);
+      opacity:.45; mix-blend:screen
+    }
+    .hero-card .frame strong{font-size: clamp(1rem, 2vw, 1.2rem); letter-spacing:.3rem; color:var(--text); opacity:.85}
+
+    /* =====================
+       Filtros (CSS only)
+       ===================== */
+    section#trabajos{padding: clamp(2rem, 5vw, 4rem) 0}
+    .filters{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:1rem}
+    .filters input{display:none}
+    .filters label{cursor:pointer; user-select:none; font-size:.95rem; color:var(--muted);
+      border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.03); padding:.5rem .85rem; border-radius:999px}
+    .filters input:checked + label{color:var(--bg); background:linear-gradient(135deg, var(--accent), var(--accent-2)); border-color:transparent}
+
+    /* =====================
+       Grid proyectos
+       ===================== */
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap: clamp(.8rem, 2vw, 1.2rem)}
+    .project{grid-column: span 12; display:block}
+    @container style(size > 700px){ .project{ grid-column: span 6 } }
+    @media (min-width: 900px){ .project{ grid-column: span 4 } }
+
+    .card{display:block; color:inherit; text-decoration:none; background: var(--surface); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); overflow:hidden; box-shadow: var(--shadow-sm)}
+    .thumb{aspect-ratio: 4/3; position:relative; overflow:hidden; background:
+      linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.35)),
+      conic-gradient(from 210deg, rgba(120,240,214,.15), rgba(83,200,255,.12), rgba(120,240,214,.15));
+      display:grid; place-items:center; transform: perspective(800px) rotateX(0deg) rotateY(0deg); transition: transform .35s ease}
+    .thumb span{opacity:.8; font-weight:600; letter-spacing:.06em}
+
+    .meta{display:flex; justify-content:space-between; align-items:center; gap:.6rem; padding:.85rem .9rem}
+    .title{font-weight:600}
+    .tags{display:flex; gap:.4rem; flex-wrap:wrap}
+    .tag--chip{font-size:.75rem; color:var(--bg); background: linear-gradient(135deg, var(--accent), var(--accent-2)); padding:.2rem .5rem; border-radius:999px}
+
+    .card:hover .thumb{transform: perspective(800px) rotateX(3.5deg) rotateY(-4deg)}
+
+    /* Mostrar/ocultar por categoría via :checked ~ .grid */
+    /* Estructura: los inputs de filtro van ANTES que .grid y en el mismo contenedor section#trabajos */
+    #f-all:checked ~ .grid .project{display:block}
+    #f-modelado:checked ~ .grid .project{display:none}
+    #f-modelado:checked ~ .grid .project[data-cat~="modelado"]{display:block}
+
+    #f-texturas:checked ~ .grid .project{display:none}
+    #f-texturas:checked ~ .grid .project[data-cat~="texturas"]{display:block}
+
+    #f-render:checked ~ .grid .project{display:none}
+    #f-render:checked ~ .grid .project[data-cat~="render"]{display:block}
+
+    #f-anim:checked ~ .grid .project{display:none}
+    #f-anim:checked ~ .grid .project[data-cat~="animacion"]{display:block}
+
+    /* =====================
+       Modal proyecto (CSS :target)
+       ===================== */
+    .modal{position: fixed; inset:0; background: rgba(7,10,14,.75); backdrop-filter: blur(8px); display:none; align-items:center; justify-content:center; padding: 1rem}
+    .modal:target{display:flex}
+    .modal .panel{width:min(100%, 1000px); background: var(--surface); border:1px solid rgba(255,255,255,.09); border-radius: calc(var(--radius) + 2px); overflow:hidden; box-shadow: var(--shadow)}
+    .modal .panel-header{display:flex; justify-content:space-between; align-items:center; padding:.9rem 1rem; border-bottom:1px solid rgba(255,255,255,.08)}
+    .modal .panel-header h3{margin:0; font-size:1.1rem}
+    .modal .close{display:inline-flex; width:36px; height:36px; border-radius:10px; align-items:center; justify-content:center; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); text-decoration:none; color:var(--text)}
+    .modal .media{aspect-ratio: 16/9; display:grid; place-items:center; background: #0c1117}
+    .modal .body{padding:1rem}
+    .modal .body p{color:var(--muted)}
+
+    /* =====================
+       Sobre / Servicios / Contacto
+       ===================== */
+    section{container-type: inline-size}
+    .about{padding: clamp(2rem, 5vw, 4rem) 0; display:grid; grid-template-columns: 1fr; gap:1rem}
+    @media (min-width: 920px){ .about{ grid-template-columns: 1.2fr .8fr } }
+    .card-plain{background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03)); border:1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: clamp(1rem, 2vw, 1.2rem); box-shadow: var(--shadow-sm)}
+
+    ul.clean{margin:.6rem 0 0; padding:0; list-style:none; display:grid; gap:.4rem}
+    ul.clean li{color:var(--muted)}
+
+    .contact{padding: clamp(2rem, 5vw, 4rem) 0}
+    .cta{display:flex; flex-wrap:wrap; gap:.8rem; align-items:center}
+    .btn{display:inline-flex; align-items:center; gap:.6rem; padding:.7rem 1rem; border-radius:12px; text-decoration:none; color:var(--bg); background:linear-gradient(135deg, var(--accent), var(--accent-2)); font-weight:600}
+    .btn.secondary{color:var(--text); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1)}
+
+    footer{padding:2rem 0; color:var(--muted); font-size:.95rem; border-top:1px solid rgba(255,255,255,.07); background: linear-gradient(180deg, transparent, rgba(255,255,255,.02))}
+    .inline-sep{opacity:.45; margin:0 .6rem}
+
+    /* Pequeños ajustes responsivos */
+    @media (max-width: 820px){
+      .hero-wrap{grid-template-columns: 1fr}
+      nav{display:none}
+    }
+
+    .logo {
+  width: 36px;      /* ajusta tamaño */
+  height: 36px;
+  border-radius: 8px; /* opcional, si quieres esquinas redondeadas */
+  object-fit: cover;  /* recorta sin deformar */
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Volver al inicio">
+         <img src="img/perfil.jpg" alt="Logo Unido·3D" class="logo">
+        <b>ariodesner</b>
+      </a>
+      <nav aria-label="principal">
+        <a href="#trabajos">Trabajos</a>
+        <a href="#sobre">Sobre mí</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio" class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-wrap">
+        <div>
+          <span class="tag"><span class="dot"></span> Estética consistente · Pipeline optimizado</span>
+          <h1>Diseño 3D con <em style="font-style:inherit;color:var(--accent)">un estilo unido</em>.</h1>
+          <p class="lead">Portafolio centrado en una identidad visual coherente: modelado limpio, texturas sobrias y renders atmosféricos. Un solo lenguaje, aplicado a productos, personajes y escenarios.</p>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <div class="mesh"></div>
+          <div class="frame"><strong>STYLE·UNITY / 3D</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trabajos con filtros CSS-only -->
+    <section id="trabajos" aria-label="Trabajos">
+      <div class="filters">
+        <input id="f-all" type="radio" name="filter" checked>
+        <label for="f-all">Todo</label>
+
+        <input id="f-modelado" type="radio" name="filter">
+        <label for="f-modelado">Modelado</label>
+
+        <input id="f-texturas" type="radio" name="filter">
+        <label for="f-texturas">Texturas</label>
+
+        <input id="f-render" type="radio" name="filter">
+        <label for="f-render">Render</label>
+
+        <input id="f-anim" type="radio" name="filter">
+        <label for="f-anim">Animación</label>
+      </div>
+
+      <div class="grid">
+        <!-- Tarjeta de proyecto (ejemplo). Sustituye el contenido y añade tu imagen como fondo dentro de .thumb si quieres -->
+        <article class="project" data-cat="modelado render">
+          <a class="card" href="#p-01" aria-label="Abrir detalle del proyecto 01">
+            <div class="thumb" 
+                style="background-image:url('/img/discos.jpg'); 
+                background-size:cover; 
+                background-position:center;">
+                <span>PROYECTO 01</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="project" data-cat="modelado render">
+          <a class="card" href="#p-02" aria-label="Abrir detalle del proyecto 02">
+            <div class="thumb" 
+                style="background-image:url('/img/zapas.jpg'); 
+                background-size:cover; 
+                background-position:center;">
+                <span>PROYECTO 02</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+        <article class="project" data-cat="modelado render">
+          <a class="card" href="#p-03" aria-label="Abrir detalle del proyecto 03">
+            <div class="thumb" 
+                style="background-image:url('/img/radio.jpg'); 
+                background-size:cover; 
+                background-position:center;">
+                <span>PROYECTO 03</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="project" data-cat="modelado render">
+          <a class="card" href="#p-04" aria-label="Abrir detalle del proyecto 04">
+            <div class="thumb" 
+                style="background-image:url('/img/pelotas.jpg'); 
+                background-size:cover; 
+                background-position:center;">
+                <span>PROYECTO 04</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+
+         <article class="project" data-cat="modelado render">
+          <a class="card" href="#p-05" aria-label="Abrir detalle del proyecto 05">
+            <div class="thumb" 
+                style="background-image:url('/img/sofa.jpg'); 
+                background-size:cover; 
+                background-position:center;">
+                <span>PROYECTO 05</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+         <article class="project" data-cat="modelado render">
+          <a class="card" href="#p-06" aria-label="Abrir detalle del proyecto 06">
+            <div class="thumb" 
+                style="background-image:url('/img/casa.jpg'); 
+                background-size:cover; 
+                background-position:center;">
+                <span>PROYECTO 06</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+
+
+
+    </section>
+
+    <!-- Modales (usa :target)  -->
+    <section id="p-01" class="modal" aria-label="Detalle proyecto 01">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Cubo táctico minimal</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un render 16:9)</div>
+        <div class="body">
+          <p>Modelado limpio con bevels controlados, texturas sutiles y esquema de iluminación que respeta el estilo único del portfolio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-02" class="modal" aria-label="Detalle proyecto 02">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Colección Assets — Kit A</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un render 16:9)</div>
+        <div class="body">
+          <p>Pack modular preparado para motores en tiempo real. Principios de cohesión visual: curvas suaves, materiales mate, paleta fría.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-03" class="modal" aria-label="Detalle proyecto 03">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Luz y niebla — Serie</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un render 16:9)</div>
+        <div class="body">
+          <p>Exploración de atmósferas volumétricas y composición centrada. Consistencia de grano y bloom para mantener el estilo unido.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-04" class="modal" aria-label="Detalle proyecto 04">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Loop — Máquina suave</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un vídeo 16:9 o gif)</div>
+        <div class="body">
+          <p>Animación en loop con principios de easing y timing uniformes a la marca. Materiales gomosos y reflejos controlados.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-05" class="modal" aria-label="Detalle proyecto 05">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Material Pack — PBR</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un render 16:9)</div>
+        <div class="body">
+          <p>Texturas físicamente plausibles con control de roughness y normal detail que encajan con la dirección estética general.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-06" class="modal" aria-label="Detalle proyecto 06">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Producto — Setup limpio</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un render 16:9)</div>
+        <div class="body">
+          <p>Escena de producto con key light suave y rim light frío. Geometría y materiales alineados a la guía de estilo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-07" class="modal" aria-label="Detalle proyecto 07">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Hard-Surface — Bloque</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un render 16:9)</div>
+        <div class="body">
+          <p>Control de subdivisión, soporte de bordes y detalles non-destructive. Paleta coherente con la marca.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-08" class="modal" aria-label="Detalle proyecto 08">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Motion — Logoset</h3>
+          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
+        </div>
+        <div class="media">(Coloca aquí un vídeo 16:9 o gif)</div>
+        <div class="body">
+          <p>Animación de logotipos con curvas de animación uniformes y tratamiento de resplandor sutil, manteniendo la estética única.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre mí / Servicios -->
+    <section id="sobre" class="about">
+      <div class="card-plain">
+        <h2>Sobre mí</h2>
+        <p class="lead">Soy un/a diseñador/a 3D centrado/a en construir <b>identidades visuales unificadas</b>. Creo en pipelines simples, nomenclaturas claras y en la coherencia como herramienta creativa.</p>
+      </div>
+      <div class="card-plain">
+        <h3>Servicios</h3>
+        <ul class="clean">
+          <li>Modelado hard/soft-surface</li>
+          <li>Texturizado PBR (Substance, UDIM)</li>
+          <li>Renders de producto y look-dev</li>
+          <li>Animación de loops / motion para marca</li>
+          <li>Preparación para tiempo real (game-ready)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contact">
+      <div class="card-plain">
+        <h2>¿Colaboramos?</h2>
+        <p class="lead">Cuéntame tu proyecto y lo llevamos a un lenguaje visual claro y consistente.</p>
+        <div class="cta">
+          <a class="btn" href="mailto:hola@unido3d.studio" aria-label="Enviar correo">✉️ Escríbeme</a>
+          <a class="btn secondary" href="#trabajos">Ver trabajos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      mariodesner <span class="inline-sep">•</span> Portafolio — Un estilo, mil formas
+    </div>
+  </footer>
+
+  <!--
+    🛠️ Cómo personalizar rápido (sin JS):
+    1. Cambia la paleta en :root (—accent, —accent-2, etc.)
+    2. Sustituye títulos y textos.
+    3. Imágenes: puedes poner una imagen de fondo en cada .thumb, por ejemplo:
+       <div class="thumb" style="background-image:url('assets/proyecto01.jpg'); background-size:cover; background-position:center"></div>
+    4. Añade más proyectos duplicando <article class="project" ...> y ajustando data-cat.
+    5. Los modales funcionan con anchors (#p-XX) vía :target.
+  -->
+</body>
+</html>
