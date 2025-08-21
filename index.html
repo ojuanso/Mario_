@@ -246,7 +246,7 @@
     .project {
       /*grid-column: span 12;*/
       display: block;
-       break-inside: avoid;
+      break-inside: avoid;
       -webkit-column-break-inside: avoid;
       margin: 0 0 1rem;
     }
@@ -275,8 +275,10 @@
     }
 
     .thumb {
-      aspect-ratio: auto;  /* o ponlo en 'unset' */
-      min-height: 220px;   /* y tus tamaños por data-h */
+      aspect-ratio: auto;
+      /* o ponlo en 'unset' */
+      min-height: 220px;
+      /* y tus tamaños por data-h */
       background-size: cover;
       background-position: center;
       position: relative;
@@ -537,41 +539,322 @@
 
 
     /* Masonry con columnas */
-.grid{
-   display: block;        /* importante: desactiva CSS Grid */
-  column-width: 320px;   /* masonry fluido */
-  column-gap: 1rem;
+    .grid {
+      display: block;
+      /* importante: desactiva CSS Grid */
+      column-width: 320px;
+      /* masonry fluido */
+      column-gap: 1rem;
+    }
+
+    /* Cada tarjeta debe evitar cortarse entre columnas */
+    .project {
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      margin: 0 0 1rem;
+    }
+
+    /* Asegura que la card ocupa todo el ancho de su columna */
+    .card {
+      display: block;
+      width: 100%
+    }
+
+    /* Quita alturas forzadas para que haya variación de altos */
+    .thumb {
+      background-size: cover;
+      background-position: center;
+      /* Si usabas aspect-ratio fijo, quítalo o ajusta por item */
+      /* aspect-ratio: unset; */
+      min-height: 220px;
+      /* altura base (ajústala a tu gusto) */
+    }
+
+    /* Tamaños opcionales por item para variar alturas */
+    .project[data-h="s"] .thumb {
+      min-height: 180px
+    }
+
+    .project[data-h="m"] .thumb {
+      min-height: 260px
+    }
+
+    .project[data-h="l"] .thumb {
+      min-height: 340px
+    }
+
+    .project[data-h="xl"] .thumb {
+      min-height: 420px
+    }
+
+    /* Opcional: responsive: más columnas con pantallas grandes */
+    @media (min-width: 900px) {
+      .grid {
+        column-width: 360px
+      }
+    }
+
+
+    /* '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' */
+    /* ===== Sobre mí / Servicios — versión limpia ===== */
+    .about--clean {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: clamp(2rem, 5vw, 3rem) 0;
+    }
+
+    @media (max-width: 900px) {
+      .about--clean {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .about-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+
+    .about-head h2,
+    .about-head h3 {
+      margin: 0;
+    }
+
+    .about-text {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .skills li {
+      font-size: .9rem;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 999px;
+      padding: .35rem .8rem;
+    }
+
+    .services-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .services-list h4 {
+      margin: 0 0 .25rem;
+    }
+
+    .services-list p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .cta {
+      margin-top: 1rem;
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+    }
+
+    /*-----------------------------------*/
+    .contact-cta{
+  padding: clamp(1.6rem, 3vw, 2rem) 0;
 }
 
-/* Cada tarjeta debe evitar cortarse entre columnas */
-.project{
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  margin: 0 0 1rem;
+.cta-wrap{
+  display:flex; align-items:center; justify-content:space-between; gap:1.2rem;
+  border-radius: calc(var(--radius) + 2px);
+  padding: clamp(1rem, 2vw, 1.25rem) clamp(1rem, 2.4vw, 1.6rem);
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+/* borde-acento ultrafino (muy sutil, sin “caja” pesada) */
+.cta-wrap::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background: linear-gradient(135deg, rgba(120,240,214,.22), rgba(83,200,255,.18));
+  opacity:.35;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  padding:1px;
 }
 
-/* Asegura que la card ocupa todo el ancho de su columna */
-.card{ display:block; width:100% }
+.cta-text h2{ margin:0 0 .4rem }
+.cta-text .lead{ margin:0; color:var(--muted) }
 
-/* Quita alturas forzadas para que haya variación de altos */
-.thumb{
-  background-size: cover;
-  background-position: center;
-  /* Si usabas aspect-ratio fijo, quítalo o ajusta por item */
-  /* aspect-ratio: unset; */
-  min-height: 220px; /* altura base (ajústala a tu gusto) */
+/* botones */
+.cta-actions{ display:flex; gap:.6rem; flex-wrap:wrap; }
+.cta-actions .btn{ padding:.65rem 1rem; border-radius: 12px; }
+.cta-actions .btn.secondary{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:var(--text) }
+
+@media (max-width: 820px){
+  .cta-wrap{ flex-direction:column; align-items:flex-start; }
+  .cta-actions{ width:100%; }
 }
 
-/* Tamaños opcionales por item para variar alturas */
-.project[data-h="s"] .thumb{ min-height:180px }
-.project[data-h="m"] .thumb{ min-height:260px }
-.project[data-h="l"] .thumb{ min-height:340px }
-.project[data-h="xl"] .thumb{ min-height:420px }
-
-/* Opcional: responsive: más columnas con pantallas grandes */
-@media (min-width: 900px){
-  .grid{ column-width: 360px }
+/*-----------------*/
+.hero--pro{
+  padding: clamp(3.2rem, 6vw, 6rem) 0;
 }
+.hero--pro .hero-wrap{
+  display:grid; gap: clamp(1.2rem, 3vw, 2rem);
+  grid-template-columns: 1.1fr .9fr;
+  align-items:center;
+}
+@media (max-width: 980px){
+  .hero--pro .hero-wrap{ grid-template-columns: 1fr; }
+}
+
+/* texto */
+.headline{
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  line-height: 1.05;
+  margin: .7rem 0 .7rem;
+}
+.headline .grad{
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.hero-cta{ display:flex; gap:.7rem; flex-wrap:wrap; margin:.6rem 0 0; }
+.hero-cta .btn{ padding:.7rem 1rem; border-radius:12px; }
+.hero-kpis{
+  margin: .9rem 0 0; padding:0; list-style:none;
+  display:flex; gap:1.1rem; flex-wrap:wrap;
+  color:var(--muted);
+}
+.hero-kpis li{ display:grid; gap:.15rem; place-items:start; }
+.hero-kpis b{ font-size:1.15rem; color:var(--text) }
+
+/* arte de la derecha: limpio, con glow sutil */
+.hero-art{
+  position:relative; margin:0; min-height: 320px;
+  display:grid; place-items:center;
+}
+.art-glow{
+  position:absolute; inset:-8%;
+  background:
+    radial-gradient(400px 220px at 75% 25%, rgba(83,200,255,.18), transparent 60%),
+    radial-gradient(520px 280px at 20% 85%, rgba(120,240,214,.14), transparent 65%);
+  filter: blur(10px);
+  border-radius: 24px;
+}
+.art-frame{
+  position:relative; width:min(92%, 520px); aspect-ratio: 16/10;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+  display:grid; place-items:center; overflow:hidden;
+}
+.art-frame::before{
+  /* líneas diagonales muy sutiles */
+  content:""; position:absolute; inset:0; opacity:.25;
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,.06) 0 2px, transparent 2px 14px);
+  mix-blend: screen;
+}
+.art-sheen{
+  /* brillo que se mueve lentamente */
+  position:absolute; inset:-40% -20%;
+  background: radial-gradient(60% 40% at 120% 20%, rgba(255,255,255,.14), transparent 60%);
+  transform: translateX(-10%);
+  animation: sheen 7s ease-in-out infinite alternate;
+}
+@keyframes sheen{
+  to{ transform: translateX(10%); opacity:.9; }
+}
+.art-frame strong{
+  letter-spacing:.35em; font-size: clamp(.9rem, 1.4vw, 1.05rem);
+  color: var(--text); opacity:.9; text-align:center;
+}
+
+/* badge del hero (reutiliza tu .tag y .dot) */
+.hero--pro .tag{ margin-bottom:.4rem }
+
+
+/* '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' */
+/* ===== Footer ===== */
+.site-footer{
+  margin-top: clamp(2rem, 6vw, 4rem);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.03));
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.f-grid{
+  display:grid;
+  grid-template-columns: 1.1fr 1fr auto;
+  gap: 1rem;
+  padding: clamp(1.2rem, 3vw, 1.6rem) 0;
+  align-items:center;
+}
+@media (max-width: 900px){
+  .f-grid{ grid-template-columns: 1fr; gap:.8rem; }
+}
+
+.f-brand .brand{ text-decoration:none; color:var(--text); display:inline-flex; gap:.6rem; align-items:center; }
+.f-brand .badge{ width:28px; height:28px; border-radius:8px;
+  background: conic-gradient(from 120deg, var(--accent), var(--accent-2) 60%, var(--accent));
+  box-shadow: var(--shadow-sm);
+}
+.f-brand .tagline{ margin:.35rem 0 0; color: var(--muted); }
+
+.f-nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:1rem; flex-wrap:wrap; }
+.f-nav a{ color: var(--muted); text-decoration:none; }
+.f-nav a:hover{ color: var(--text); }
+
+.f-contact{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:flex-end; }
+.btn.mini{ padding:.5rem .75rem; border-radius:10px; font-size:.95rem; }
+
+.f-bottom{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:.8rem; padding: .9rem 0; border-top: 1px solid rgba(255,255,255,.06);
+  color: var(--muted);
+}
+.f-bottom a{ color: var(--muted); text-decoration:none; }
+.f-bottom a:hover{ color: var(--text); }
+
+/* Redes sociales en el footer */
+.f-social{
+  display:flex;
+  gap:.8rem;
+  justify-content:center;
+  padding:.8rem 0 1rem;
+}
+.f-social a{
+  display:grid; place-items:center;
+  width:38px; height:38px;
+  border-radius:50%;
+  background: rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  color: var(--muted);
+  transition:.25s ease;
+}
+.f-social a:hover{
+  color: var(--accent);
+  background: rgba(255,255,255,.08);
+  transform: translateY(-2px);
+}
+.f-social svg{ width:20px; height:20px; }
+
   </style>
 </head>
 
@@ -591,21 +874,42 @@
   </header>
 
   <main id="inicio" class="container">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-wrap">
-        <div>
-          <span class="tag"><span class="dot"></span> Estética consistente · Pipeline optimizado</span>
-          <h1>Diseño 3D con <em style="font-style:inherit;color:var(--accent)">un estilo unido</em>.</h1>
-          <p class="lead">Portafolio centrado en una identidad visual coherente: modelado limpio, texturas sobrias y
-            renders atmosféricos. Un solo lenguaje, aplicado a productos, personajes y escenarios.</p>
-        </div>
-        <div class="hero-card" aria-hidden="true">
-          <div class="mesh"></div>
-          <div class="frame"><strong>STYLE·UNITY / 3D</strong></div>
-        </div>
+<!-- HERO — versión pro y limpia -->
+<section class="hero hero--pro">
+  <div class="hero-wrap">
+    <div class="hero-copy">
+      <span class="tag"><span class="dot"></span> Estética consistente · Pipeline optimizado</span>
+
+      <h1 class="headline">
+        Diseño 3D con <span class="grad">un estilo unido</span>.
+      </h1>
+
+      <p class="lead">
+        Portafolio centrado en una identidad visual coherente: modelado limpio, texturas sobrias y renders atmosféricos.
+        Un solo lenguaje, aplicado a productos, personajes y escenarios.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn" href="#trabajos">Ver trabajos</a>
+        <a class="btn secondary" href="#contacto">Hablemos</a>
       </div>
-    </section>
+
+      <ul class="hero-kpis">
+        <li><b>+80</b><span>assets</span></li>
+        <li><b>6</b><span>líneas visuales</span></li>
+        <li><b>24h</b><span>look-dev</span></li>
+      </ul>
+    </div>
+
+    <figure class="hero-art" aria-hidden="true">
+      <div class="art-glow"></div>
+      <div class="art-frame">
+        <div class="art-sheen"></div>
+        <strong>STYLE·UNITY / 3D</strong>
+      </div>
+    </figure>
+  </div>
+</section>
 
     <!-- Trabajos con filtros CSS-only -->
     <section id="trabajos" aria-label="Trabajos">
@@ -788,11 +1092,11 @@
           </a>
         </article>
         <article class="project" data-cat="modelado render" data-h="l">
-          <a class="card" href="#p-06" aria-label="Abrir detalle del proyecto 06">
-            <div class="thumb" style="background-image:url('img/casa.jpg'); 
+          <a class="card" href="#p-13" aria-label="Abrir detalle del proyecto 13">
+            <div class="thumb" style="background-image:url('img/laser.png'); 
                 background-size:cover; 
                 background-position:center;">
-              <span>PROYECTO 06</span>
+              <span>PROYECTO 13</span>
             </div>
             <div class="meta">
               <div class="title">Colección Assets — Kit A</div>
@@ -801,36 +1105,11 @@
           </a>
         </article>
         <article class="project" data-cat="modelado render" data-h="m">
-          <a class="card" href="#p-06" aria-label="Abrir detalle del proyecto 06">
-            <div class="thumb" style="background-image:url('img/casa.jpg'); 
+          <a class="card" href="#p-14" aria-label="Abrir detalle del proyecto 14">
+            <div class="thumb" style="background-image:url('img/maderas.png'); 
                 background-size:cover; 
                 background-position:center;">
-              <span>PROYECTO 06</span>
-            </div>
-            <div class="meta">
-              <div class="title">Colección Assets — Kit A</div>
-              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
-            </div>
-          </a>
-        </article><article class="project" data-cat="modelado render" data-h="s">
-          <a class="card" href="#p-06" aria-label="Abrir detalle del proyecto 06">
-            <div class="thumb" style="background-image:url('img/casa.jpg'); 
-                background-size:cover; 
-                background-position:center;">
-              <span>PROYECTO 06</span>
-            </div>
-            <div class="meta">
-              <div class="title">Colección Assets — Kit A</div>
-              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
-            </div>
-          </a>
-        </article>
-        <article class="project" data-cat="modelado render" data-h="l">
-          <a class="card" href="#p-06" aria-label="Abrir detalle del proyecto 06">
-            <div class="thumb" style="background-image:url('img/casa.jpg'); 
-                background-size:cover; 
-                background-position:center;">
-              <span>PROYECTO 06</span>
+              <span>PROYECTO 14</span>
             </div>
             <div class="meta">
               <div class="title">Colección Assets — Kit A</div>
@@ -839,11 +1118,37 @@
           </a>
         </article>
         <article class="project" data-cat="modelado render" data-h="s">
-          <a class="card" href="#p-06" aria-label="Abrir detalle del proyecto 06">
-            <div class="thumb" style="background-image:url('img/casa.jpg'); 
+          <a class="card" href="#p-15" aria-label="Abrir detalle del proyecto 15">
+            <div class="thumb" style="background-image:url('img/pelotas_2.png'); 
                 background-size:cover; 
                 background-position:center;">
-              <span>PROYECTO 06</span>
+              <span>PROYECTO 15</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+        <article class="project" data-cat="modelado render" data-h="l">
+          <a class="card" href="#p-16" aria-label="Abrir detalle del proyecto 16">
+            <div class="thumb" style="background-image:url('img/silla.png'); 
+                background-size:cover; 
+                background-position:center;">
+              <span>PROYECTO 16</span>
+            </div>
+            <div class="meta">
+              <div class="title">Colección Assets — Kit A</div>
+              <div class="tags"><span class="tag--chip">Modelado</span><span class="tag--chip">Texturas</span></div>
+            </div>
+          </a>
+        </article>
+        <article class="project" data-cat="modelado render" data-h="s">
+          <a class="card" href="#p-17" aria-label="Abrir detalle del proyecto 17">
+            <div class="thumb" style="background-image:url('img/casco.png'); 
+                background-size:cover; 
+                background-position:center;">
+              <span>PROYECTO 17</span>
             </div>
             <div class="meta">
               <div class="title">Colección Assets — Kit A</div>
@@ -852,174 +1157,100 @@
           </a>
         </article>
       </div>
-      
-
-  <!-- resto igual; cambia data-h para variar alturas -->
-</div>
-
-
-
-    </section>
-
-    <!-- Modales (usa :target)  -->
-    <section id="p-01" class="modal" aria-label="Detalle proyecto 01">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Cubo táctico minimal</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un render 16:9)</div>
-        <div class="body">
-          <p>Modelado limpio con bevels controlados, texturas sutiles y esquema de iluminación que respeta el estilo
-            único del portfolio.</p>
-        </div>
       </div>
     </section>
 
-    <section id="p-02" class="modal" aria-label="Detalle proyecto 02">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Colección Assets — Kit A</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un render 16:9)</div>
-        <div class="body">
-          <p>Pack modular preparado para motores en tiempo real. Principios de cohesión visual: curvas suaves,
-            materiales mate, paleta fría.</p>
-        </div>
-      </div>
-    </section>
+    
 
-    <section id="p-03" class="modal" aria-label="Detalle proyecto 03">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Luz y niebla — Serie</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un render 16:9)</div>
-        <div class="body">
-          <p>Exploración de atmósferas volumétricas y composición centrada. Consistencia de grano y bloom para mantener
-            el estilo unido.</p>
-        </div>
+    <!-- Sobre mí / Servicios — versión III (limpia) -->
+    <section id="sobre" class="about about--clean">
+      <div class="about-block">
+          <h2>Sobre mí</h2>
+        <p class="about-text">
+          Soy un diseñador 3D enfocado en <b>crear proyectos con un estilo unificado</b>.
+          Me apasiona el modelado limpio, la coherencia visual y la creación de
+          materiales y luces que transmiten la identidad de cada proyecto.
+        </p>
+        <ul class="skills">
+          <li>Blender</li>
+          <li>Substance Painter</li>
+          <li>Unreal Engine</li>
+          <li>Octane</li>
+        </ul>
       </div>
-    </section>
 
-    <section id="p-04" class="modal" aria-label="Detalle proyecto 04">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Loop — Máquina suave</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un vídeo 16:9 o gif)</div>
-        <div class="body">
-          <p>Animación en loop con principios de easing y timing uniformes a la marca. Materiales gomosos y reflejos
-            controlados.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="p-05" class="modal" aria-label="Detalle proyecto 05">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Material Pack — PBR</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un render 16:9)</div>
-        <div class="body">
-          <p>Texturas físicamente plausibles con control de roughness y normal detail que encajan con la dirección
-            estética general.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="p-06" class="modal" aria-label="Detalle proyecto 06">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Producto — Setup limpio</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un render 16:9)</div>
-        <div class="body">
-          <p>Escena de producto con key light suave y rim light frío. Geometría y materiales alineados a la guía de
-            estilo.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="p-07" class="modal" aria-label="Detalle proyecto 07">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Hard-Surface — Bloque</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un render 16:9)</div>
-        <div class="body">
-          <p>Control de subdivisión, soporte de bordes y detalles non-destructive. Paleta coherente con la marca.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="p-08" class="modal" aria-label="Detalle proyecto 08">
-      <div class="panel">
-        <div class="panel-header">
-          <h3>Motion — Logoset</h3>
-          <a class="close" href="#trabajos" aria-label="Cerrar">✕</a>
-        </div>
-        <div class="media">(Coloca aquí un vídeo 16:9 o gif)</div>
-        <div class="body">
-          <p>Animación de logotipos con curvas de animación uniformes y tratamiento de resplandor sutil, manteniendo la
-            estética única.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sobre mí / Servicios -->
-    <section id="sobre" class="about">
-      <div class="card-plain">
-        <h2>Sobre mí</h2>
-        <p class="lead">Soy un/a diseñador/a 3D centrado/a en construir <b>identidades visuales unificadas</b>. Creo en
-          pipelines simples, nomenclaturas claras y en la coherencia como herramienta creativa.</p>
-      </div>
-      <div class="card-plain">
-        <h3>Servicios</h3>
-        <ul class="clean">
-          <li>Modelado hard/soft-surface</li>
-          <li>Texturizado PBR (Substance, UDIM)</li>
-          <li>Renders de producto y look-dev</li>
-          <li>Animación de loops / motion para marca</li>
-          <li>Preparación para tiempo real (game-ready)</li>
+      <div class="about-block">
+          <h3>Servicios</h3>
+        <ul class="services-list">
+          <li>
+            <h4>Modelado hard/soft surface</h4>
+            <p>Topología optimizada y preparada para subdivisión o tiempo real.</p>
+          </li>
+          <li>
+            <h4>Texturizado PBR</h4>
+            <p>Mapas calibrados para fidelidad en render y motores de juego.</p>
+          </li>
+          <li>
+            <h4>Renders de producto</h4>
+            <p>Imágenes con iluminación cuidada y materiales consistentes.</p>
+          </li>
+          <li>
+            <h4>Optimización game-ready</h4>
+            <p>Retopología, UVs limpias y empaquetado listo para motores.</p>
+          </li>
         </ul>
       </div>
     </section>
 
+
+
     <!-- Contacto -->
-    <section id="contacto" class="contact">
-      <div class="card-plain">
-        <h2>¿Colaboramos?</h2>
-        <p class="lead">Cuéntame tu proyecto y lo llevamos a un lenguaje visual claro y consistente.</p>
-        <div class="cta">
-          <a class="btn" href="mailto:hola@unido3d.studio" aria-label="Enviar correo">✉️ Escríbeme</a>
-          <a class="btn secondary" href="#trabajos">Ver trabajos</a>
-        </div>
-      </div>
-    </section>
+<section id="contacto" class="contact contact-cta">
+  <div class="cta-wrap">
+    <div class="cta-text">
+      <h2>¿Colaboramos?</h2>
+      <p class="lead">Cuéntame tu proyecto y lo llevamos a un lenguaje visual claro y consistente.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a class="btn" href="mailto:hola@unido3d.studio" aria-label="Enviar correo">✉️ Escríbeme</a>
+      <a class="btn secondary" href="#trabajos">Ver trabajos</a>
+    </div>
+  </div>
+</section>
   </main>
 
-  <footer>
-    <div class="container">
-      mariodesner <span class="inline-sep">•</span> Portafolio — Un estilo, mil formas
-    </div>
-  </footer>
 
-  <!--
-    🛠️ Cómo personalizar rápido (sin JS):
-    1. Cambia la paleta en :root (—accent, —accent-2, etc.)
-    2. Sustituye títulos y textos.
-    3. Imágenes: puedes poner una imagen de fondo en cada .thumb, por ejemplo:
-       <div class="thumb" style="background-image:url('assets/proyecto01.jpg'); background-size:cover; background-position:center"></div>
-    4. Añade más proyectos duplicando <article class="project" ...> y ajustando data-cat.
-    5. Los modales funcionan con anchors (#p-XX) vía :target.
-  -->
+<footer class="site-footer">
+  <div class="container f-grid">
+    <div class="f-brand">
+      <a href="#inicio" class="brand">
+        <span class="badge" aria-hidden="true"></span>
+        <b>Mariodesner</b>
+      </a>
+      <p class="tagline">Un estilo, mil formas.</p>
+    </div>
+
+<div class="container f-social">
+    <a href="https://www.behance.net/" target="_blank" aria-label="Behance">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h6.5a4 4 0 0 1 0 8H3V6Zm6.3 6a2.3 2.3 0 0 0 0-4.6H5.2V12h4.1ZM3 18h7c2.1 0 3.7 1.2 3.7 3s-1.6 3-3.7 3H3v-6Zm6.8 4a2 2 0 0 0 0-4H5.2v4h4.6ZM19.5 6.1c1.6 0 2.6.7 3.1 1.7l-1.5.9a1.6 1.6 0 0 0-1.6-1c-.8 0-1.4.4-1.6.9-.3.6-.3 1.2-.3 1.2h4.9c.1.6.1 1.3 0 2 0 .8-.3 1.5-.8 2.1-.6.7-1.5 1.1-2.8 1.1-1.3 0-2.2-.4-2.8-1.1-.6-.7-.8-1.5-.8-2.1s.2-1.4.8-2.1c.5-.7 1.5-1.7 3.4-1.7Zm-1.6 4.5c.1.3.2.6.5.9.3.2.6.4 1.2.4.6 0 1-.2 1.2-.4.2-.2.3-.6.3-.9h-3.2Zm-.7-4.9h4.6v1.2h-4.6V5.7Z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7Zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10Zm-5 3.5A5.5 5.5 0 1 0 17.5 13 5.5 5.5 0 0 0 12 7.5Zm0 2A3.5 3.5 0 1 1 8.5 13 3.5 3.5 0 0 1 12 9.5Zm4.8-2.7a1.3 1.3 0 1 0-1.3 1.3 1.3 1.3 0 0 0 1.3-1.3Z"/></svg>
+    </a>
+    <a href="https://dribbble.com/" target="_blank" aria-label="Dribbble">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.8a18 18 0 0 0-1.8-3.6c2-.6 3.9.2 4.6 3.6ZM12 4c1.5 1.9 2.7 3.8 3.5 6.1-2.7.8-5.3 1-7.9.6A15.6 15.6 0 0 1 12 4Zm-3 14a8.2 8.2 0 0 1-6-7.4h2.9a14.7 14.7 0 0 0 2.9 7.4Zm2.8 2a9.8 9.8 0 0 1-3.5-8c2.9.3 5.7.1 8.5-.7.2.8.4 1.6.4 2.5A8.2 8.2 0 0 1 11.8 20Zm2.7-.3c1.1-1.4 1.7-3.1 1.7-4.9 0-.6-.1-1.3-.2-1.9 1.1-.3 2.1-.7 3-1.2a8.1 8.1 0 0 1-4.5 8Z"/></svg>
+    </a>
+  </div>
+
+
+    <div class="f-contact">
+      <a class="btn mini" href="mailto:hola@unido3d.studio">✉️ Escríbeme</a>
+      <a class="btn secondary mini" href="#inicio">↑ Volver arriba</a>
+    </div>
+  </div>
+</footer>
+ 
 </body>
 
 </html>
